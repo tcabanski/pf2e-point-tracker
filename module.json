@@ -1,0 +1,31 @@
+{
+  "id": "pf2e-point-tracker",
+  "title": "PF2E Point Tracker",
+  "version": "1.0.0",
+  "compatibility": {
+    "minimum": "12",
+    "verified": "12"
+  },
+  "authors": [
+    {
+      "name": "Author 1",
+      "email": "tom@oldmadmage.com",
+      "discord": "oldmadmage",
+      "flags": {}
+    }
+  ],
+  "packs": [
+    {
+      "name": "point-tracker",
+      "label": "Point Tracker",
+      "path": "packs/point-tracker",
+      "type": "Item",
+      "ownership": {
+        "PLAYER": "OBSERVER",
+        "ASSISTANT": "OWNER"
+      },
+      "system": "pf2e",
+      "flags": {}
+    }
+  ]
+}
