@@ -2,6 +2,8 @@ This simple module lets you easily add a counter to a token to keep track of any
 
 For multiple counters on the same actor, use the `Create Point Tracker` macro from the Point Tracker Macros compendium. Drag it to your hotbar, select one or more tokens, and run it. The macro opens a dialog for tracker name, starting value, minimum value, optional maximum value, and icon style. Each tracker created this way gets a distinct token effect icon path so two trackers with the same value can still both appear in the PF2E effects halo.
 
+Tracker effects created with the macro use the same styled counter image in the selected-token effects list. Existing v2.0.0 trackers can be updated by selecting their token and running `game.pf2ePointTracker.syncTrackerIcons()`.
+
 ![](docs/example.png)
 
 ## Making a Release

@@ -60,6 +60,27 @@ function counterIconRule(iconStyle) {
   return COUNTER_ICON_RULE;
 }
 
+function counterIconPath(iconStyle, value) {
+  const number = Number(value);
+  if (!iconStyle || !Number.isInteger(number) || number < 0 || number > 99) return ICON_PATH;
+  return `${MODULE_PATH}/assets/styles/${iconStyle}/counter-${number}.svg`;
+}
+
+function getChangedValue(changes, path) {
+  if (Object.prototype.hasOwnProperty.call(changes, path)) return changes[path];
+  return path.split(".").reduce((value, part) => value?.[part], changes);
+}
+
+function isPointTrackerItem(item) {
+  const flags = item.flags?.[MODULE_ID];
+  return item.type === "effect" && Boolean(flags?.trackerId && flags?.iconStyle);
+}
+
+function trackerIconPathForItem(item, value = item.system?.badge?.value) {
+  if (!isPointTrackerItem(item)) return null;
+  return counterIconPath(item.flags[MODULE_ID].iconStyle, value);
+}
+
 function usedIconStyles(actor) {
   const used = new Set();
 
@@ -175,7 +196,7 @@ function buildEffectData(options) {
       context: null,
       unidentified: false,
     },
-    img: ICON_PATH,
+    img: counterIconPath(iconStyle, options.value),
     flags: {
       [MODULE_ID]: {
         trackerId,
@@ -353,10 +374,37 @@ async function openDialog(target) {
   return createTracker(actors, options);
 }
 
+async function syncTrackerIcons(target) {
+  const actors = getTargetActors(target);
+  if (actors.length === 0) {
+    notify("warn", "Select a token or assign a character before syncing point tracker icons.");
+    return [];
+  }
+
+  const updated = [];
+  for (const actor of actors.filter(canCreateEffect)) {
+    const updates = [];
+
+    for (const item of actor.items ?? []) {
+      const img = trackerIconPathForItem(item);
+      if (img && item.img !== img) updates.push({ _id: item.id, img });
+    }
+
+    if (updates.length > 0) {
+      const documents = await actor.updateEmbeddedDocuments("Item", updates);
+      updated.push(...documents);
+    }
+  }
+
+  notify("info", `Synced ${updated.length} point tracker icon${updated.length === 1 ? "" : "s"}.`);
+  return updated;
+}
+
 const api = {
   openDialog,
   createTracker,
   buildEffectData,
+  syncTrackerIcons,
 };
 
 function registerApi() {
@@ -366,3 +414,11 @@ function registerApi() {
 Hooks.once("init", registerApi);
 
 Hooks.once("ready", registerApi);
+
+Hooks.on("preUpdateItem", (item, changes) => {
+  const value = getChangedValue(changes, "system.badge.value");
+  if (value === undefined) return;
+
+  const img = trackerIconPathForItem(item, value);
+  if (img) changes.img = img;
+});
