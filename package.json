@@ -1,0 +1,8 @@
+{
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node tools/build-release.js",
+    "generate:icons": "node tools/generate-style-icons.js"
+  }
+}
