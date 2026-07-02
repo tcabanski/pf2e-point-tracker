@@ -1,8 +1,8 @@
-This simple module lets you easily add a counter to a token to keep track of any point system you like. For example, chase points in PF2E. Just drag the point tracker effect from the compendium onto any token. You can increase and decrease the value like any other PF2E effect, such as frightened.
+This simple module lets you easily add counters to a token to keep track of any point systems you like. For example, chase points, research points, victory points, or any other PF2E/SF2E counter. Drag the point tracker effect from the compendium onto a token for the default single-counter behavior, then increase and decrease the value like any other PF2E effect, such as frightened.
 
-For multiple counters on the same actor, use the `Create Point Tracker` macro from the Point Tracker Macros compendium. Drag it to your hotbar, select one or more tokens, and run it. The macro opens a dialog for tracker name, starting value, minimum value, optional maximum value, and icon style. Each tracker created this way gets a distinct token effect icon path so two trackers with the same value can still both appear in the PF2E effects halo.
+For multiple counters on the same actor, use the `Create Point Tracker` macro from the Point Tracker Macros compendium. Drag it to your hotbar, select one or more tokens, and run it. The macro opens a dialog for tracker name, starting value, minimum value, optional maximum value, and icon style. Trackers created this way can use different visual styles, and each style has its own token effect icon path so multiple trackers with the same value can still all appear in the PF2E effects halo.
 
-Tracker effects created with the macro use the same styled counter image in the selected-token effects list. Existing v2.0.0 trackers can be updated by selecting their token and running `game.pf2ePointTracker.syncTrackerIcons()`.
+Macro-created tracker effects use the same styled counter image in the selected-token effects list, so the token halo and selected-token controls visually match. The example below shows one token with three different trackers. Existing v2.0.0 trackers can be updated by selecting their token and running `game.pf2ePointTracker.syncTrackerIcons()`.
 
 ![](docs/example.png)
 
